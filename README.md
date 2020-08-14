@@ -1,5 +1,5 @@
 # Unsupervised Lensing
-A tool for Unsupervised Deep Learning applications in strong lensing cosmology
+A PyTorch-based tool for Unsupervised Deep Learning applications in strong lensing cosmology
 
 ## Models
 
