@@ -4,7 +4,7 @@ from torchvision import datasets, transforms
 import numpy as np
 import random
 
-def process(data_path='./Data', batch_size = 100, apply_transform=False, out_file_path='./Data.npy'):
+def process(data_path='./Data', batch_size = 100, apply_transform=False):
 
     if apply_transform == True:
         transform = transforms.Compose([transforms.Grayscale(),
@@ -25,9 +25,10 @@ def process(data_path='./Data', batch_size = 100, apply_transform=False, out_fil
         x_train.append(x.numpy())
     x_train = np.asarray(x_train)
     
-    np.save(out_file_path, x_train)
-    print('Data saved!')
+    print('Data Processed!')
     print('Shape of the Data: ' + str(x_train.shape))
+    
+    return x_train
     
 
 
