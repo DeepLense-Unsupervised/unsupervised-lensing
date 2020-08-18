@@ -77,7 +77,40 @@ def train(data_path='./Data/no_sub_train.npy',
           pretrain=True,
           pretrain_mode='transfer',
           pretrain_model='A'):
-          
+        
+        '''
+        
+        Args:
+        ______
+        
+        data_path: str
+           Path to your input NumPy array of shape [number_of_batches, batch_size, number_of_channels, height, width]
+                      
+        epochs: int
+        
+        learning_rate: float
+        
+        beta: float (range: [0,1])
+            Weight of KL-Divergence Loss
+        
+        optimizer: str
+            Choose Optimizer for training the model, available options: ['Adam', 'RMSprop', 'SGD']
+            
+        checkpoint_path: str
+            Path to store model weights
+        
+        pretrain: bool
+            Will continue training from preloaded weights if set to True
+            
+        pretrain_mode: str
+            
+            'transfer': Will load the pre-trained model weights from Google Drive
+            'continue': Will load the model weights from the 'checkpoint_path' directory
+            
+        pretrain_model: str ('A','B')
+            Select the model for loading the weights when 'pretrain_mode' is set to transfer. Refer [paper link]
+        '''
+        
         x_train = np.load(data_path)
         x_train = x_train.astype(np.float32)
         print('Data Imported')
@@ -150,10 +183,32 @@ def train(data_path='./Data/no_sub_train.npy',
 def evaluate(data_path='./Data/no_sub_test.npy',
           checkpoint_path='./Weights',
           out_path='./Results',
-          pretrain=True,
           pretrain_mode='transfer',
           pretrain_model='A'):
+         
+        '''
+
+        Args:
+        ______
+
+        data_path: str
+            Path to your input NumPy array of shape [number_of_batches, batch_size, number_of_channels, height, width]
+                              
+        checkpoint_path: str
+            Path to store model weights
           
+        out_path: str
+            Path to store reconstructed lenses
+          
+        pretrain_mode: str
+          
+            'transfer': Will load the pre-trained model weights from Google Drive
+            'continue': Will load the model weights from the 'checkpoint_path' directory
+          
+        pretrain_model: str ('A','B')
+            Select the model for loading the weights when 'pretrain_mode' is set to transfer. Refer [paper link]
+        '''
+        
         x_train = np.load(data_path)
         train_data = x_train.astype(np.float32)
         print('Data Imported')
@@ -163,38 +218,28 @@ def evaluate(data_path='./Data/no_sub_test.npy',
         encoder = Encoder(no_channels=c)
         decoder = Decoder(no_channels=c)
         model = VAE(encoder, decoder).to(device)
-
-        if pretrain == True:
-
-            if pretrain_mode == 'transfer':
-            
-                print('Downloading Pretrained Model Weights')
-                if pretrain_model == 'A':
-                    gdd.download_file_from_google_drive(file_id='1US_9wOh9bGR2PqV_cQuYKkrMJn6CDpNN', dest_path=checkpoint_path + '/VAE.pth')
-                else:
-                    gdd.download_file_from_google_drive(file_id='1rMmgk60jT9Zr58S-81CNSiEmWDv0pKiP', dest_path=checkpoint_path + '/VAE.pth')
-                    
-                if torch.cuda.is_available():
-                    model = torch.load(checkpoint_path + '/VAE.pth')
-                else:
-                    model = torch.load(checkpoint_path + '/VAE.pth', map_location=torch.device('cpu'))
+        
+        if pretrain_mode == 'transfer':
+        
+            print('Downloading Pretrained Model Weights')
+            if pretrain_model == 'A':
+                gdd.download_file_from_google_drive(file_id='1US_9wOh9bGR2PqV_cQuYKkrMJn6CDpNN', dest_path=checkpoint_path + '/VAE.pth')
+            else:
+                gdd.download_file_from_google_drive(file_id='1rMmgk60jT9Zr58S-81CNSiEmWDv0pKiP', dest_path=checkpoint_path + '/VAE.pth')
                 
-            if pretrain_mode == 'continue':
+            if torch.cuda.is_available():
+                model = torch.load(checkpoint_path + '/VAE.pth')
+            else:
+                model = torch.load(checkpoint_path + '/VAE.pth', map_location=torch.device('cpu'))
             
-                print('Importing Pretrained Model Weights')
-                if torch.cuda.is_available():
-                    model = torch.load(checkpoint_path + '/VAE.pth')
-                else:
-                    model = torch.load(checkpoint_path + '/VAE.pth', map_location=torch.device('cpu'))
-                    
-        else:
+        if pretrain_mode == 'continue':
         
             print('Importing Pretrained Model Weights')
             if torch.cuda.is_available():
                 model = torch.load(checkpoint_path + '/VAE.pth')
             else:
                 model = torch.load(checkpoint_path + '/VAE.pth', map_location=torch.device('cpu'))
-
+                    
         criteria = nn.MSELoss()
         out = []
         for i in tqdm(range(train_data.shape[0])):

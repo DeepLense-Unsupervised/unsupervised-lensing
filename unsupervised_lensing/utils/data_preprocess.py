@@ -6,6 +6,27 @@ import random
 
 def process(data_path='./Data', batch_size = 100, apply_transform=False):
 
+    '''
+    
+    Args:
+    ______
+    
+    data_path: str
+       Path to your input data images
+       
+       Note: torch data loader expects the input images to be in subfolders, so arrange your input directory accordingly
+       Example: Data
+                |
+                |__no_sub
+                |  |
+                |  |__no_sub_1.png
+       
+    batch_size: int
+    
+    apply_transform: bool
+        Will apply random affine transformations (random rotations from 0 to 90 and random translations with a fraction of 0.2)) if set to True
+    '''
+
     if apply_transform == True:
         transform = transforms.Compose([transforms.Grayscale(),
                                         transforms.Resize((150, 150)),

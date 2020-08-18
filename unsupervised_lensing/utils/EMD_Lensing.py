@@ -4,6 +4,18 @@ from scipy.spatial import distance
 
 def EMD(data_path='./Data/no_sub_test.npy', recon_path='./Results/Recon_samples.npy'):
 
+    '''
+    
+    Args:
+    ______
+    
+    data_path: str
+       Path to your input NumPy array of shape [number_of_batches, batch_size, number_of_channels, height, width]
+    
+    recon_path: str
+        Path to store output reconstructed lenses
+    '''
+
     data = np.load(data_path, allow_pickle='True')
     recon_data = np.load(recon_path, allow_pickle='True')
 

@@ -73,13 +73,42 @@ class Discriminator(nn.Module):
 def train(data_path='./Data/no_sub_train.npy',
           epochs=50,
           learning_rate=2e-3,
-          beta=0,
           optimizer='Adam',
           checkpoint_path='./Weights',
           pretrain=True,
           pretrain_mode='transfer',
           pretrain_model='A'):
           
+        '''
+        
+        Args:
+        ______
+        
+        data_path: str
+           Path to your input NumPy array of shape [number_of_batches, batch_size, number_of_channels, height, width]
+                      
+        epochs: int
+        
+        learning_rate: float
+        
+        optimizer: str
+            Choose Optimizer for training the model, available options: ['Adam', 'RMSprop', 'SGD']
+            
+        checkpoint_path: str
+            Path to store model weights
+        
+        pretrain: bool
+            Will continue training from preloaded weights if set to True
+            
+        pretrain_mode: str
+            
+            'transfer': Will load the pre-trained model weights from Google Drive
+            'continue': Will load the model weights from the 'checkpoint_path' directory
+            
+        pretrain_model: str ('A','B')
+            Select the model for loading the weights when 'pretrain_mode' is set to transfer. Refer [paper link]
+        '''
+        
         x_train = np.load(data_path)
         x_train = x_train.astype(np.float32)
         print('Data Imported')
@@ -204,9 +233,31 @@ def train(data_path='./Data/no_sub_train.npy',
 def evaluate(data_path='./Data/no_sub_test.npy',
           checkpoint_path='./Weights',
           out_path='./Results',
-          pretrain=True,
           pretrain_mode='transfer',
           pretrain_model='A'):
+          
+        '''
+
+        Args:
+        ______
+
+        data_path: str
+            Path to your input NumPy array of shape [number_of_batches, batch_size, number_of_channels, height, width]
+                              
+        checkpoint_path: str
+            Path to store model weights
+          
+        out_path: str
+            Path to store reconstructed lenses
+
+        pretrain_mode: str
+          
+            'transfer': Will load the pre-trained model weights from Google Drive
+            'continue': Will load the model weights from the 'checkpoint_path' directory
+          
+        pretrain_model: str ('A','B')
+            Select the model for loading the weights when 'pretrain_mode' is set to transfer. Refer [paper link]
+        '''
           
         x_train = np.load(data_path)
         train_data = x_train.astype(np.float32)
@@ -217,43 +268,29 @@ def evaluate(data_path='./Data/no_sub_test.npy',
         encoder = Encoder(no_channels=c)
         decoder = Decoder(no_channels=c)
         Disc = Discriminator().to(device)
-
-        if pretrain == True:
-
-            if pretrain_mode == 'transfer':
-            
-                print('Downloading Pretrained Model Weights')
-                if pretrain_model == 'A':
-                    gdd.download_file_from_google_drive(file_id='1QvH1_N05bhWshv51uNvuv2mQ4tm2XjEd', dest_path=checkpoint_path + '/AAE_Dec.pth')
-                    gdd.download_file_from_google_drive(file_id='1hP5X3_F0K4_5blYczmTBJvolLLBYs1hK', dest_path=checkpoint_path + '/AAE_Disc.pth')
-                    gdd.download_file_from_google_drive(file_id='1KEMuQD2bWN-W7iqgKSn9ZRqkLNsc71UK', dest_path=checkpoint_path + '/AAE_Enc.pth')
-                else:
-                    gdd.download_file_from_google_drive(file_id='1DehaZs0F4OzAg18JG1UxGQSY6nokqfMV', dest_path=checkpoint_path + '/AAE_Dec.pth')
-                    gdd.download_file_from_google_drive(file_id='1v6ZA1xfVLBqQYi1lMd4uTp2Xdj4sHqkW', dest_path=checkpoint_path + '/AAE_Disc.pth')
-                    gdd.download_file_from_google_drive(file_id='1ZYCsXpGpAvqz5CZ51veyCXb5KnzaBJ1f', dest_path=checkpoint_path + '/AAE_Enc.pth')
-                    
-                if torch.cuda.is_available():
-                    encoder = torch.load(checkpoint_path + '/AAE_Enc.pth', map_location=torch.device('cuda'))
-                    decoder = torch.load(checkpoint_path + '/AAE_Dec.pth', map_location=torch.device('cuda'))
-                    Disc = torch.load(checkpoint_path + '/AAE_Disc.pth', map_location=torch.device('cuda'))
-                else:
-                    encoder = torch.load(checkpoint_path + '/AAE_Enc.pth', map_location=torch.device('cpu'))
-                    decoder = torch.load(checkpoint_path + '/AAE_Dec.pth', map_location=torch.device('cpu'))
-                    Disc = torch.load(checkpoint_path + '/AAE_Disc.pth', map_location=torch.device('cpu'))
+        
+        if pretrain_mode == 'transfer':
+        
+            print('Downloading Pretrained Model Weights')
+            if pretrain_model == 'A':
+                gdd.download_file_from_google_drive(file_id='1QvH1_N05bhWshv51uNvuv2mQ4tm2XjEd', dest_path=checkpoint_path + '/AAE_Dec.pth')
+                gdd.download_file_from_google_drive(file_id='1hP5X3_F0K4_5blYczmTBJvolLLBYs1hK', dest_path=checkpoint_path + '/AAE_Disc.pth')
+                gdd.download_file_from_google_drive(file_id='1KEMuQD2bWN-W7iqgKSn9ZRqkLNsc71UK', dest_path=checkpoint_path + '/AAE_Enc.pth')
+            else:
+                gdd.download_file_from_google_drive(file_id='1DehaZs0F4OzAg18JG1UxGQSY6nokqfMV', dest_path=checkpoint_path + '/AAE_Dec.pth')
+                gdd.download_file_from_google_drive(file_id='1v6ZA1xfVLBqQYi1lMd4uTp2Xdj4sHqkW', dest_path=checkpoint_path + '/AAE_Disc.pth')
+                gdd.download_file_from_google_drive(file_id='1ZYCsXpGpAvqz5CZ51veyCXb5KnzaBJ1f', dest_path=checkpoint_path + '/AAE_Enc.pth')
                 
-            if pretrain_mode == 'continue':
+            if torch.cuda.is_available():
+                encoder = torch.load(checkpoint_path + '/AAE_Enc.pth', map_location=torch.device('cuda'))
+                decoder = torch.load(checkpoint_path + '/AAE_Dec.pth', map_location=torch.device('cuda'))
+                Disc = torch.load(checkpoint_path + '/AAE_Disc.pth', map_location=torch.device('cuda'))
+            else:
+                encoder = torch.load(checkpoint_path + '/AAE_Enc.pth', map_location=torch.device('cpu'))
+                decoder = torch.load(checkpoint_path + '/AAE_Dec.pth', map_location=torch.device('cpu'))
+                Disc = torch.load(checkpoint_path + '/AAE_Disc.pth', map_location=torch.device('cpu'))
             
-                print('Importing Pretrained Model Weights')
-                if torch.cuda.is_available():
-                    encoder = torch.load(checkpoint_path + '/AAE_Enc.pth', map_location=torch.device('cuda'))
-                    decoder = torch.load(checkpoint_path + '/AAE_Dec.pth', map_location=torch.device('cuda'))
-                    Disc = torch.load(checkpoint_path + '/AAE_Disc.pth', map_location=torch.device('cuda'))
-                else:
-                    encoder = torch.load(checkpoint_path + '/AAE_Enc.pth', map_location=torch.device('cpu'))
-                    decoder = torch.load(checkpoint_path + '/AAE_Dec.pth', map_location=torch.device('cpu'))
-                    Disc = torch.load(checkpoint_path + '/AAE_Disc.pth', map_location=torch.device('cpu'))
-                    
-        else:
+        if pretrain_mode == 'continue':
         
             print('Importing Pretrained Model Weights')
             if torch.cuda.is_available():
@@ -264,7 +301,7 @@ def evaluate(data_path='./Data/no_sub_test.npy',
                 encoder = torch.load(checkpoint_path + '/AAE_Enc.pth', map_location=torch.device('cpu'))
                 decoder = torch.load(checkpoint_path + '/AAE_Dec.pth', map_location=torch.device('cpu'))
                 Disc = torch.load(checkpoint_path + '/AAE_Disc.pth', map_location=torch.device('cpu'))
-
+                    
         criteria = nn.MSELoss()
         out = []
         for i in tqdm(range(train_data.shape[0])):
