@@ -1,0 +1,2 @@
+recursive-include unsupervised_lensing/models *.py
+recursive-include unsupervised_lensing/utils *.py

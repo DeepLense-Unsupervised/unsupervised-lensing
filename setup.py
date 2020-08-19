@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'unsupervised_lensing',
   packages = ['unsupervised_lensing'],
-  version = '0.1',
+  version = '0.1.1',
   license='MIT',
   description = 'A PyTorch-based tool for Unsupervised Deep Learning applications in strong lensing cosmology',
   author = 'K Pranath Reddy',
