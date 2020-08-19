@@ -1,0 +1,13 @@
+Metadata-Version: 1.1
+Name: unsupervised-lensing
+Version: 0.1.2
+Summary: A PyTorch-based tool for Unsupervised Deep Learning applications in strong lensing cosmology
+Home-page: https://github.com/DeepLense-Unsupervised/unsupervised-lensing
+Author: K Pranath Reddy
+Author-email: pranath.mail@gmail.com
+License: MIT
+Description: UNKNOWN
+Keywords: Gravitational Lensing,Unsupervised Deep Learning,Dark Matter
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License

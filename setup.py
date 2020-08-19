@@ -1,13 +1,16 @@
-from distutils.core import setup
+from setuptools import find_packages, setup
 setup(
   name = 'unsupervised_lensing',
-  packages = ['unsupervised_lensing'],
-  version = '0.1.1',
+  version = '0.1.2',
   license='MIT',
   description = 'A PyTorch-based tool for Unsupervised Deep Learning applications in strong lensing cosmology',
   author = 'K Pranath Reddy',
   author_email = 'pranath.mail@gmail.com',
   url = 'https://github.com/DeepLense-Unsupervised/unsupervised-lensing',
+  packages=find_packages(include=['unsupervised_lensing',
+  'unsupervised_lensing.models',
+  'unsupervised_lensing.utils',
+  ]),
   keywords = ['Gravitational Lensing', 'Unsupervised Deep Learning', 'Dark Matter'],
   install_requires=[            
           'numpy==1.18.5',
