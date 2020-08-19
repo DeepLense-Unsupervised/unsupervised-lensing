@@ -31,6 +31,21 @@ out = Adversarial_AE.train(data_path='./Data/no_sub_train.npy',
 
 # Plot the training loss
 plt.plot_loss(out)
+```
 
+### Inference
+
+```python
+from unsupervised_lensing.models import Adversarial_AE
+from unsupervised_lensing.models.AAE_Nets import *
+from unsupervised_lensing.utils import loss_plotter as plt
+
+# Model Validation
+recon_loss = Adversarial_AE.evaluate(data_path='./Data/no_sub_test.npy',
+                                       checkpoint_path='./Weights',
+                                       out_path='./Results')
+
+# Plot the reconstruction loss
+plt.plot_dist(recon_loss)
 ```
 
