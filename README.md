@@ -10,6 +10,12 @@ Currently supported models:
 * Deep Convolutional Autoencoder
 * Restricted Boltzmann Machine
 
+## Installation
+
+```shell
+pip install unsupervised-lensing
+```
+
 ## Data
 
 The models expect the data to be in the form of a five-dimensional NumPy array of shape [number_of_batches, batch_size, number_of_channels, height, width]. You can use the data preprocessing module in unsupervised_lensing.utils to prepare your dataset.
