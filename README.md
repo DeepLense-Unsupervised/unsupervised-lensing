@@ -1,6 +1,8 @@
 # Unsupervised Lensing
 A PyTorch-based tool for Unsupervised Deep Learning applications in strong lensing cosmology
 
+This is a Google Summer of Code (GSoC) 2020 project
+
 ## Models
 
 Currently supported models:
