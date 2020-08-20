@@ -3,6 +3,10 @@ A PyTorch-based tool for Unsupervised Deep Learning applications in strong lensi
 
 This is a Google Summer of Code (GSoC) 2020 project
 
+### Project Description
+
+Gravitational lensing has been a cornerstone in many cosmology experiments, and studies since it was discussed in Einstein’s calculations back in 1936 and discovered in 1979, and one area of particular interest is the study of substructure in strong lensing images and differentiating weakly interacting massive particle (WIMP) dark matter. While statistical and supervised machine learning algorithms have been implemented for this task, the potential of unsupervised deep learning algorithms is yet to be explored and could prove to be crucial in the analysis of LSST data. The primary aim of this GSoC 2020 project is to design a python-based framework for implementing unsupervised deep learning architectures to study strong lensing images. 
+
 ## Models
 
 Currently supported models:
