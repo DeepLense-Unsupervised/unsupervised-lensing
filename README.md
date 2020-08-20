@@ -28,6 +28,8 @@ The models expect the data to be in the form of a five-dimensional NumPy array o
 
 ## Examples
 
+[Example Notebook](https://github.com/DeepLense-Unsupervised/unsupervised-lensing/blob/master/Example_Notebook.ipynb)
+
 ### Training
 
 ```python
