@@ -53,6 +53,7 @@ plt.plot_loss(out)
 from unsupervised_lensing.models import Adversarial_AE
 from unsupervised_lensing.models.AAE_Nets import *
 from unsupervised_lensing.utils import loss_plotter as plt
+from unsupervised_lensing.utils.EMD_Lensing import EMD
 
 # Model Validation
 recon_loss = Adversarial_AE.evaluate(data_path='./Data/no_sub_test.npy',   # Path to validation dataset
@@ -61,5 +62,8 @@ recon_loss = Adversarial_AE.evaluate(data_path='./Data/no_sub_test.npy',   # Pat
 
 # Plot the reconstruction loss
 plt.plot_dist(recon_loss)
+
+# Calculate Wasserstein distance
+print(EMD(data_path='./Data/no_sub_test.npy', recon_path='./Results/Recon_samples.npy'))
 ```
 
