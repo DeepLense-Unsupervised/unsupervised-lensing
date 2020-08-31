@@ -1,3 +1,7 @@
+[![](https://img.shields.io/badge/license-MIT-green)](https://github.com/DeepLense-Unsupervised/unsupervised-lensing/blob/master/LICENSE.txt)
+[![](https://img.shields.io/badge/arXiv-2008.12731-orange)](https://arxiv.org/abs/2008.12731)
+[![](https://img.shields.io/badge/pypi-v0.1.2-blue)](https://pypi.org/project/unsupervised-lensing/)
+
 # Unsupervised Lensing
 A PyTorch-based tool for Unsupervised Deep Learning applications in strong lensing cosmology
 
@@ -6,6 +10,8 @@ This is a Google Summer of Code (GSoC) 2020 project
 ### Project Description
 
 Gravitational lensing has been a cornerstone in many cosmology experiments, and studies since it was discussed in Einstein’s calculations back in 1936 and discovered in 1979, and one area of particular interest is the study of dark matter via substructure in strong lensing images. While statistical and supervised machine learning algorithms have been implemented for this task, the potential of unsupervised deep learning algorithms is yet to be explored and could prove to be crucial in the analysis of LSST data. The primary aim of this GSoC 2020 project is to design a python-based framework for implementing unsupervised deep learning architectures to study strong lensing images. 
+
+Refer to the [paper](https://arxiv.org/abs/2008.12731) for more details.
 
 ## Models
 
